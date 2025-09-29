@@ -7,15 +7,12 @@ def lup(matrix):
         raise ValueError("Матрица вырождена")
 
     count_swaps = 0
-
     a_matrix = [row[:] for row in matrix]
-
     l_matrix = [[0.0] * n for _ in range(n)]
     u_matrix = [[0.0] * n for _ in range(n)]
     p_matrix = [[1.0 if i == j else 0.0 for j in range(n)] for i in range(n)]
 
     for k in range(n):
-
         max_row = k
         max_val = abs(a_matrix[k][k])
         for i in range(k + 1, n):
