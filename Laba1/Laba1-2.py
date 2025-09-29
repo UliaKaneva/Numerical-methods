@@ -15,17 +15,17 @@ def main():
         raise ZeroDivisionError("Элемент b1 == 0")
     stability *= abs(matrix[0][0]) >= abs(matrix[0][1])
 
-    pq.append((-matrix[0][1] / matrix[0][0], d[0] / matrix[0][0]))
+    pq.append((-matrix[0][1] / matrix[0][0], d[0][0] / matrix[0][0]))
     for i in range(1, n - 1):
         chasn = matrix[i][i] + matrix[i][i - 1] * pq[i - 1][0]
         if abs(chasn) < 10e-12:
             raise ZeroDivisionError("Деление на 0")
         stability *= abs(matrix[i][i]) >= (abs(matrix[i][i + 1]) + abs(matrix[i][i - 1]))
-        pq.append((-matrix[i][i + 1] / chasn, (d[i] - matrix[i][i - 1] * pq[i - 1][1]) / chasn))
+        pq.append((-matrix[i][i + 1] / chasn, (d[i][0] - matrix[i][i - 1] * pq[i - 1][1]) / chasn))
     chasn = matrix[n - 1][n - 1] + matrix[n - 1][n - 2] * pq[n - 2][0]
     if abs(chasn) < 10e-12:
         raise ZeroDivisionError("Деление на 0")
-    pq.append((0, (d[n - 1] - matrix[n - 1][n - 2] * pq[n - 2][1]) / chasn))
+    pq.append((0, (d[n - 1][0] - matrix[n - 1][n - 2] * pq[n - 2][1]) / chasn))
     # Обратный ход метода
     result = [0] * n
 
