@@ -12,7 +12,7 @@ def print_matrix(matrix, name=""):
         print(name)
     for i in matrix:
         for j in i:
-            print(f"{j:.4f}", end=" ")
+            print(f"{j:.6f}", end=" ")
         print()
 
 
@@ -32,6 +32,10 @@ def transpose(matrix):
 def take_column(matrix, index):
     result = [[i[index]] for i in matrix]
     return result
+
+
+def copy_matrix(matrix):
+    return [i[:] for i in matrix]
 
 
 def matrix_multiplication(matrix_1, matrix_2):

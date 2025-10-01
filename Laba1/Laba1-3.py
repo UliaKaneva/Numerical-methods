@@ -39,7 +39,11 @@ def simple_iteration(alfa, beta, e):
     past = [i[:] for i in beta]
     current = matrix_addition(beta, matrix_multiplication(alfa, past))
     k_iteration = 0
-    while norma_c(matrix_difference(current, past)) > e:
+    na = norma_c(alfa)
+    cof = 1
+    if na < 1.0:
+        cof = na / (1 - na)
+    while cof * norma_c(matrix_difference(current, past)) > e:
         past, current = current, matrix_addition(beta, matrix_multiplication(alfa, current))
         k_iteration += 1
     return current, k_iteration

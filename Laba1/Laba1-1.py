@@ -122,9 +122,10 @@ def main():
         print(f"x{i + 1} {result[0][i]:.4f}", end=" ")
     print()
     print(f"Определитель: {determinant(matrix):.4f}")
-    print("Обратная матрица:")
     inv_matrix = inverse_matrix(matrix)
-    print_matrix(inv_matrix)
+    print_matrix(inv_matrix, name="Обратная матрица")
+    test = matrix_multiplication(matrix, inv_matrix)
+    print_matrix(test, name="Проверка:")
 
 
 if __name__ == "__main__":
