@@ -1,4 +1,11 @@
-from par_and_func import *
+from par_and_func import (matrix_addition,
+                          matrix_multiplication,
+                          matrix_difference,
+                          inverse_matrix,
+                          read_matrix,
+                          read_vector,
+                          print_matrix,
+                          determinant)
 
 
 def norma_c(matrix):
