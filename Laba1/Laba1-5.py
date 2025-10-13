@@ -48,14 +48,15 @@ def kvadr_urov(b, c):
 
 
 def com_check(a_past, a_current, i, epsilon):
-    x_p = kvadr_urov(2 * (a_past[i][i] + a_past[i + 1][i + 1]),
+    x_p = kvadr_urov(-(a_past[i][i] + a_past[i + 1][i + 1]),
                      a_past[i][i] * a_past[i + 1][i + 1] - a_past[i][i + 1] * a_past[i + 1][i])
-    x_c = kvadr_urov(2 * (a_current[i][i] + a_current[i + 1][i + 1]),
+    x_c = kvadr_urov(-(a_current[i][i] + a_current[i + 1][i + 1]),
                      a_current[i][i] * a_current[i + 1][i + 1] - a_current[i][i + 1] * a_current[i + 1][i])
     if x_c[1] == 0:
         return False
-    diff = [[x_p[0] - x_c[0]], [x_p[1], x_p[1]]]
-    if norma_euclid(diff) < epsilon:
+    diff1 = [[x_p[0] - x_c[0]], [x_p[1] - x_c[1]]]
+    diff2 = [[x_p[0] - x_c[0]], [x_p[1] + x_c[1]]]
+    if norma_euclid(diff1) < epsilon or norma_euclid(diff2) < epsilon:
         return True
     return False
 
@@ -63,10 +64,12 @@ def com_check(a_past, a_current, i, epsilon):
 def convergence_check(a_past, a_current, epsilon):
     n = len(a_past)
     for i in range(n - 1):
-        if abs(a_current[i + 1][i]) > epsilon:
+        if abs(norma_euclid(take_column(a_current, i)[i + 1:])) > epsilon:
             if (i == n - 2) or (abs(a_current[i + 2][i]) < epsilon):
                 if not com_check(a_past, a_current, i, epsilon):
                     return False
+                else:
+                    continue
             return False
     return True
 
@@ -83,15 +86,15 @@ def qr_iteration(matrix, epsilon):
     i = 0
     while i < n - 1:
         if abs(a_current[i + 1][i]) < epsilon:
-            result.append([(a_current[i][i], 0.0)])
+            result.append((a_current[i][i], 0.0))
             i += 1
         else:
-            x = kvadr_urov(2 * (a_current[i][i] + a_current[i + 1][i + 1]),
+            x = kvadr_urov(-(a_current[i][i] + a_current[i + 1][i + 1]),
                            a_current[i][i] * a_current[i + 1][i + 1] - a_current[i][i + 1] * a_current[i + 1][i])
-            result.append([tuple(x)])
+            result.append(tuple(x))
             i += 2
     if i == n - 1:
-        result.append([(a_current[i][i], 0.0)])
+        result.append((a_current[i][i], 0.0))
     return result
 
 
@@ -105,10 +108,14 @@ def main():
     result = qr_iteration(matrix, e)
     print("Собственные значения: ")
     for i in result:
-        if abs(i[0][1]) > e:
-            print(f"{i[0][0]:.6f} + i{i[0][1]:.6f}")
+        if abs(i[0]) < e:
+            print(f"i{i[1]:.6f}")
+            print(f"-i{i[1]:.6f}")
+        elif abs(i[1]) > e:
+            print(f"{i[0]:.6f} + i{i[1]:.6f}")
+            print(f"{i[0]:.6f} - i{i[1]:.6f}")
         else:
-            print(f"{i[0][0]:.6f}")
+            print(f"{i[0]:.6f}")
     a = np.array(matrix)
     w, v = np.linalg.eig(a)
     print("Проверка Numpy")
