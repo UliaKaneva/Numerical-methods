@@ -1,10 +1,12 @@
 from math import sin, cos
-from par_and_func import matrix_multiplication, matrix_difference, print_matrix
+from par_and_func import matrix_multiplication, matrix_difference
 
-A, B = 0.6, 0.9  # границы для x_1
+A, B = 0.8, 0.9  # границы для x_1
 C, D = 1.7, 1.8  # границы для x_2
-Q = 0.992
+Q = 0.975
 phi = [lambda x, y: 1 + cos(y), lambda x, y: 1 + sin(x)]
+
+resh = [0.83218792214600197821, 1.7394061793139047621]
 
 
 def function(x, y):
@@ -23,7 +25,7 @@ def error_rate(x_1, x_2):
     return max(abs(diff[0][0]), abs(diff[1][0]))
 
 
-resh = [0.83218792214600197821, 1.7394061793139047621]
+
 
 
 def method_simple_iteration(a, b, c, d, q, func, e):
@@ -32,14 +34,14 @@ def method_simple_iteration(a, b, c, d, q, func, e):
     count_iter = 0
     cof = q / (1 - q)
     pog_last = max(abs(x_current[0] - x_last[0]), abs(x_current[1] - x_last[1]))
-    while pog_last > e:
+    while pog_last * cof > e:
         count_iter += 1
-        print(f"Iteration № {count_iter}: x_1 - {x_current[0]}, x_2 - {x_current[1]}; e - {pog_last} ")
+        print(f"Iteration № {count_iter}: x_1 - {x_current[0]}, x_2 - {x_current[1]}; e - {pog_last}")
         x_last = x_current
         x_current = [func[0](*x_last), func[1](*x_last)]
         pog_last = max(abs(x_current[0] - x_last[0]), abs(x_current[1] - x_last[1]))
     count_iter += 1
-    print(f"Iteration №{count_iter}: x_1 - {x_current[0]}, x_2 - {x_current[1]}; e - {pog_last} ")
+    print(f"Iteration №{count_iter}: x_1 - {x_current[0]}, x_2 - {x_current[1]}; e - {pog_last}")
     return x_current
 
 

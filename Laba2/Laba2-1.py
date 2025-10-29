@@ -1,23 +1,23 @@
-import math
+from math import sin, cos
 
 Q = 0.72
 A, B = 0.7, 0.80
 
 
-def equation(x):
-    return ((math.sin(x) + 0.5) / 2) ** 0.5
+def phi(x):
+    return ((sin(x) + 0.5) / 2) ** 0.5
 
 
 def f(x):
-    return math.sin(x) - 2 * x ** 2 + 0.5
+    return sin(x) - 2 * x ** 2 + 0.5
 
 
 def f_fp(x):
-    return math.cos(x) - 4 * x
+    return cos(x) - 4 * x
 
 
 def f_sp(x):
-    return -math.sin(x) - 4
+    return -sin(x) - 4
 
 
 def method_simple_iteration(func, e, q, a, b):
@@ -60,7 +60,7 @@ def main():
     epsilon = float(input('Enter a number for epsilon: '))
     if abs(epsilon) < 1e-14 or epsilon < 0:
         raise ValueError('Epsilon cannot be <= 0')
-    result = method_simple_iteration(equation, epsilon, Q, A, B)
+    result = method_simple_iteration(phi, epsilon, Q, A, B)
     print(result)
     result = method_newton(f, f_fp, f_sp, epsilon, A, B)
     print(result)

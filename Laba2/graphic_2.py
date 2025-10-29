@@ -7,10 +7,16 @@ y_1 = 1 + np.cos(x_2)
 x_1 = np.linspace(-1, 3, 400)
 y_2 = 1 + np.sin(x_1)
 
+z_2 = np.abs(np.sin(x_2))
+z_1 = np.abs(np.cos(x_1))
+
 plt.figure(figsize=(10, 6))
 
 plt.plot(x_1, y_2, label='$x_2 = 1 + sin(x_1)$', color='red', linewidth=2)
 plt.plot(y_1, x_2, label='$x_1 = 1 + cos(x_2)$', color='blue', linewidth=2)
+plt.plot(x_1, z_1, label='$\\varphi\'_1 = abs(sin(x_2))$', color='green', linewidth=2)
+plt.plot(x_2, z_2, label='$\\varphi\'_2 = abs(cos(x_1))$', color='black', linewidth=2)
+
 
 plt.title('График системы')
 plt.xlabel('$x_1$')
