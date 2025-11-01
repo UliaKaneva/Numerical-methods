@@ -1,14 +1,9 @@
 from par_and_func import *
 
-
-def main():
+def solving_diagonal_matrix(matrix, d):
     stability = 1
-    matrix = read_matrix()
-    n = len(matrix)
-    if len(matrix) != len(matrix[0]):
-        raise ValueError("Матрица должна быть квадратной")
-    d = read_vector()
     pq = []
+    n = len(matrix)
 
     # Прямой ход метода
     if abs(matrix[0][0]) < 10e-12:
@@ -34,6 +29,18 @@ def main():
         result[i] = pq[i][0] * result[i + 1] + pq[i][1]
     if not stability:
         print("Предупреждение. Результат может быть посчитан с большой погрешностью!")
+    return result
+
+def main():
+
+    matrix = read_matrix()
+    n = len(matrix)
+    if len(matrix) != len(matrix[0]):
+        raise ValueError("Матрица должна быть квадратной")
+    d = read_vector()
+
+    result = solving_diagonal_matrix(matrix, d)
+
 
     print("Ответ: ", end=" ")
     for i in range(1, n + 1):
