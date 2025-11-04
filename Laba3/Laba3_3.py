@@ -39,11 +39,11 @@ def print_polynomial(a_list):
         else:
             s = f"x^{i}"
         if res == "":
-            res = f"{a_list[i]}{s}"
+            res = f"{a_list[i]:.5f}{s}"
         elif a_list[i] > 0:
-            res = f"{res} + {a_list[i]}{s}"
+            res = f"{res} + {a_list[i]:.5f}{s}"
         else:
-            res = f"{res} - {abs(a_list[i])}{s}"
+            res = f"{res} - {abs(a_list[i]):.5f}{s}"
     if res == 0:
         print(0)
     else:
