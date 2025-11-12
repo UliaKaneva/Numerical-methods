@@ -38,8 +38,8 @@ def runge_romberg_method(start, end, step1, step2, function, method, p):
     k = h2 / h1
     y1 = method(start, end, h1, function)
     y2 = method(start, end, h2, function)
-    delta = (y2 - y1) / (1 - k ** p)
-    return abs(delta)
+    res = y1 + (y1 - y2) / (k ** p - 1)
+    return res
 
 
 def main():
@@ -47,31 +47,36 @@ def main():
     h1 = 0.5
     h2 = 0.25
     f = lambda x: (x ** 2) / (x ** 2 + 16)
+    resh = 0.1454095639967755
     # a, b = -1, 1
     # h1 = 0.5
     # h2 = 0.25
     # f = lambda x: x / ((3 * x + 4) ** 2)
-    resh = 0.1454095639967755
+    # resh = -0.16474014216845725181369
+    print(f"Точное решение: {resh}")
     print("Метод прямоугольников")
     print(f"С шагом h = {h1}: {rectangle_method(a, b, h1, f):.8f}")
     print(f"С шагом h = {h2}: {rectangle_method(a, b, h2, f):.8f}")
-    print(f"Погрешность для h = {h2}: {runge_romberg_method(a, b, h1, h2, f, rectangle_method, 2):.8f}")
-    print(f"Разница с решением: решение - {resh:.8f}, h = {h2}: {abs(rectangle_method(a, b, h2, f) - resh):.8f}",
-          end="\n\n")
+    print(f"Абсолютная погрешность: {abs(rectangle_method(a, b, h2, f) - resh):.12f}")
+    uto = runge_romberg_method(a, b, h1, h2, f, rectangle_method, 2)
+    print(f"Уточнение: {uto:.12f}")
+    print(f"Абсолютная погрешность: {abs(uto - resh):.12f}", end="\n\n")
 
     print("Метод трапеций")
     print(f"С шагом h = {h1}: {trapezoid_method(a, b, h1, f):.8f}")
     print(f"С шагом h = {h2}: {trapezoid_method(a, b, h2, f):.8f}")
-    print(f"Погрешность для h = {h2}: {runge_romberg_method(a, b, h1, h2, f, trapezoid_method, 2):.8f}")
-    print(f"Разница с решением: решение - {resh:.8f}, h = {h2}: {abs(trapezoid_method(a, b, h2, f) - resh):.8f}",
-          end="\n\n")
+    print(f"Абсолютная погрешность: {abs(trapezoid_method(a, b, h2, f) - resh):.12f}")
+    uto = runge_romberg_method(a, b, h1, h2, f, trapezoid_method, 2)
+    print(f"Уточнение: {uto:.12f}")
+    print(f"Абсолютная погрешность: {abs(uto - resh):.12f}", end="\n\n")
 
     print("Метод Симпсона")
     print(f"С шагом h = {h1}: {simpson_method(a, b, h1, f):.8f}")
     print(f"С шагом h = {h2}: {simpson_method(a, b, h2, f):.8f}")
-    print(f"Погрешность для h = {h2}: {runge_romberg_method(a, b, h1, h2, f, simpson_method, 4):.8f}")
-    print(f"Разница с решением: решение - {resh:.8f}, h = {h2}: {abs(simpson_method(a, b, h2, f) - resh):.8f}",
-          end="\n\n")
+    print(f"Абсолютная погрешность: {abs(simpson_method(a, b, h2, f) - resh):.12f}")
+    uto = runge_romberg_method(a, b, h1, h2, f, simpson_method, 4)
+    print(f"Уточнение: {uto:.12f}")
+    print(f"Абсолютная погрешность: {abs(uto - resh):.12f}", end="\n\n")
 
 
 if __name__ == '__main__':

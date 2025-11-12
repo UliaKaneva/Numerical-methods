@@ -39,11 +39,11 @@ def print_polynomial(a_list):
         else:
             s = f"x^{i}"
         if res == "":
-            res = f"{a_list[i]:.5f}{s}"
+            res = f"{a_list[i]}{s}"
         elif a_list[i] > 0:
-            res = f"{res} + {a_list[i]:.5f}{s}"
+            res = f"{res} + {a_list[i]}{s}"
         else:
-            res = f"{res} - {abs(a_list[i]):.5f}{s}"
+            res = f"{res} - {abs(a_list[i])}{s}"
     if res == 0:
         print(0)
     else:
@@ -54,6 +54,8 @@ def main():
     f_list = [-1.3734, -1.249, -0.7854, 0.7854, 1.249, 1.3734]
     # x_list = [0.0, 1.7, 3.4, 5.1, 6.8, 8.5]
     # f_list = [0.0, 1.3038, 1.8439, 2.2583, 2.6077, 2.9155]
+    # x_list = [0.0, 0.5, 1.0, 1.5, 2.0]
+    # f_list = [0.0, 0.97943, 1.8415, 2.4975, 2.9093]
     a_list1 = approximating_polynomial(x_list, f_list)
     print_polynomial(a_list1)
     s_e = sum_squares_errors(a_list1, x_list, f_list)
@@ -67,7 +69,7 @@ def main():
     # s_e = sum_squares_errors(a_list3, x_list, f_list)
     # print(s_e)
 
-    x = np.linspace(x_list[0] - 0.5, x_list[-1] + 0.5, 500)
+    x = np.linspace(x_list[0] - 1, x_list[-1] + 1, 500)
     y1 = polynomial(a_list1, x)
     y2 = polynomial(a_list2, x)
 

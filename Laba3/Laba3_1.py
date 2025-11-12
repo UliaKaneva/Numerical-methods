@@ -59,7 +59,7 @@ def lagrange_interpolation_polynomial(x, f, is_print=False, x_star=None):
                 str_res = f"{str_res} - {abs(cof[i]):.5f}{s}"
     return result, str_res
 
-# Построение многочлена Лагранжа
+# Построение многочлена Ньютона
 def count_separated_differences(x_list, f):
     sep_dif = [[0] * i for i in range(len(x_list), 0, -1)]
     for i in range(len(x_list)):

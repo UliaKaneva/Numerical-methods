@@ -1,7 +1,3 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-
 def first_derivative(x_list, f_list, x_star):
     index = -1
     for i in range(len(x_list) - 1):

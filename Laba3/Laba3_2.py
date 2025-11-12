@@ -4,19 +4,21 @@ import numpy as np
 
 
 def generating_coefficient_equations(x_list, f_list):
-    h_list = [x_list[i] - x_list[i - 1] for i in range(1, len(x_list))]
-    n = len(x_list) - 2
+    h_list = [x_list[i] - x_list[i - 1] for i in range(1, len(x_list))] # нахождение h_i = x_i - x_(i-1)
+    n = len(x_list) - 2 # Размер системы уравнений с c_i
     matrix = [[0.0] * n for _ in range(n)]
     vector_b = [[0.0] for _ in range(n)]
-    for i in range(n):
-        if i != 0:
+    for i in range(n): # Построение трехдиагональной системы линейных уравнений, для нахождения c_i
+        if i != 0: # Коэффициенты для нижнее поддиагонали
             matrix[i][i - 1] = h_list[i]
-        if i != n - 1:
+        if i != n - 1: # Коэффициенты для верхней поддиагонали
             matrix[i][i + 1] = h_list[i + 1]
-        matrix[i][i] = 2 * (h_list[i] + h_list[i + 1])
+        matrix[i][i] = 2 * (h_list[i] + h_list[i + 1]) # Коэффициент для главной диагонали
+        # Свободный член
         vector_b[i][0] = 3 * (
                     (f_list[i + 2] - f_list[i + 1]) / h_list[i + 1] - ((f_list[i + 1] - f_list[i]) / h_list[i]))
-    result = solving_diagonal_matrix(matrix, vector_b)
+    result = solving_diagonal_matrix(matrix, vector_b) # решение системы, метод из первой лабораторной второе задание
+    # Нахождение a_i, b_i и d_i
     c_list =  [0.0] + result
     a_list = [f_list[i] for i in range(len(f_list) - 1)]
     d_list = [0 for _ in range(len(f_list) - 1)]
@@ -36,7 +38,7 @@ def splain(x_list, f_list, x_star, cof_matrix=None, is_print=False):
     res_str = ""
     if cof_matrix is None:
         cof_matrix = generating_coefficient_equations(x_list, f_list)
-    x_i = [i for i in range(len(x_list)) if x_list[i] >= x_star]
+    x_i = [i for i in range(len(x_list)) if x_list[i] >= x_star] # определение интервала для x_star
     if len(x_i) == 0 or len(x_i) == len(x_list):
         return result, res_str
     index = x_i[0] - 1
@@ -69,7 +71,7 @@ def splain(x_list, f_list, x_star, cof_matrix=None, is_print=False):
 
     return result, res_str
 
-def spline_for_graphic(x_list, x_star, cof_matrix, index):
+def spline_for_graphic(x_list, x_star, cof_matrix, index): # функция для построения графика сплайна
     result = 0.0
     n = x_star - x_list[index]
     for i in range(4):
@@ -89,10 +91,10 @@ def main():
     print(res_str)
 
     # График
-    x1 = np.linspace(x_list[0], x_list[1], 100)
-    x2 = np.linspace(x_list[1], x_list[2], 100)
-    x3 = np.linspace(x_list[2], x_list[3], 100)
-    x4 = np.linspace(x_list[3], x_list[4], 100)
+    x1 = np.linspace(x_list[0] - 1.0, x_list[1] + 1.0, 100)
+    x2 = np.linspace(x_list[1] - 1.0, x_list[2] + 1.0, 100)
+    x3 = np.linspace(x_list[2] - 1.0, x_list[3] + 1.0, 100)
+    x4 = np.linspace(x_list[3] - 1.0, x_list[4] + 1.0, 100)
     c_m = generating_coefficient_equations(x_list, f_list)
     p1 = spline_for_graphic(x_list, x1, c_m, 0)
     p2 = spline_for_graphic(x_list, x2, c_m, 1)
@@ -101,12 +103,14 @@ def main():
 
     fig, ax1 = plt.subplots(figsize=(10, 6))
 
-    ax1.plot(x1, p1, label='Кубический сплайн', color='red', linewidth=2)
-    ax1.plot(x2, p2, color='red', linewidth=2)
-    ax1.plot(x3, p3, color='red', linewidth=2)
-    ax1.plot(x4, p4, color='red', linewidth=2)
-    ax1.scatter(x_list, f_list, color='green', s=40, zorder=5, label='Узлы интерполяции')
-    ax1.scatter(x_star, spline_for_graphic(x_list, x_star, c_m, 1), color='blue', s=50, zorder=5, label='$X^*$')
+    ax1.plot(x1, p1, label='Кубический сплайн', color='#1f77b4', linewidth=2)
+    ax1.plot(x2, p2, color='#ff7f0e', linewidth=2)
+    ax1.plot(x3, p3, color='#2ca02c', linewidth=2)
+    ax1.plot(x4, p4, color='#d62728', linewidth=2)
+    ax1.scatter(x_list, f_list, color='#FF1493', s=50, zorder=5, label='Узлы интерполяции', edgecolors='black',
+                linewidth=1)  # Ярко-розовый
+    ax1.scatter(x_star, spline_for_graphic(x_list, x_star, c_m, 1), color='#FFD700', s=80, zorder=5, label='$X^*$',
+                edgecolors='black', linewidth=1)  # Золотой
     ax1.set_title(f'Сплайн')
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
