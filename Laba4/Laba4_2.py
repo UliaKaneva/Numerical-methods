@@ -2,7 +2,7 @@ from Laba4_1 import runge_kutta_method, runge_romberg_method
 from numpy import exp
 import matplotlib.pyplot as plt
 import numpy as np
-from Laba1.Laba1_2 import solving_diagonal_matrix
+from Laba1.Laba1_1 import solve_equation
 
 
 def phi(start, end, h, f, start_cond, n):
@@ -24,30 +24,29 @@ def shooting_method(start, end, h, f, params):
 
 
 def finite_difference_method(start, end, h, f, params):
-    h = h / 2.0
     n = round((end - start) / h) + 1
     p, q = params[0], params[1]
     x_cels = [start + h * i for i in range(n)]
     vector = [[0.0] for _ in range(n)]
     matrix = [[0.0] * n for _ in range(n)]
-    matrix[0][0] = -1.0
-    matrix[0][1] = 1.0
-    vector[0][0] = 3.0 * exp(1.0) * h
 
-    matrix[n - 1][n - 2] = 1.0
-    matrix[n - 1][n - 1] = -1.0 + 2.0 * h
-    vector[n - 1][0] = 0.0
+    matrix[0][0] = -3.0
+    matrix[0][1] = 4.0
+    matrix[0][2] = -1.0
+    vector[0][0] = 6.0 * exp(1.0) * h
 
-
+    matrix[n - 1][n - 3] = 1.0
+    matrix[n - 1][n - 2] = -4.0
+    matrix[n - 1][n - 1] = 3.0 - 4.0 * h
 
     for i in range(1, n - 1):
         matrix[i][i - 1] = 1.0 - ((p(x_cels[i]) * h) / 2.0)
         matrix[i][i + 1] = 1.0 + ((p(x_cels[i]) * h) / 2.0)
         matrix[i][i] = -2.0 + (h ** 2) * q(x_cels[i])
-    y_res = [[i] for i in solving_diagonal_matrix(matrix, vector)]
 
-    return x_cels[::2], y_res[::2]
+    y_res = solve_equation(matrix, vector)
 
+    return x_cels, y_res
 
 
 def main():
@@ -55,7 +54,7 @@ def main():
     end = 2.0
     y_pr = lambda x, y, z: z
     z_pr = lambda x, y, z: ((2 * x + 1) / x) * z - ((x + 1) / x) * y
-    h_po_um = 0.05
+    h_po_um = 0.1
     y_resh = lambda x: exp(x) * x ** 2
 
     h = float(input() or h_po_um)
@@ -73,7 +72,8 @@ def main():
 
     all_methods = {
         "Метод стрельбы": [shooting_method, "red", 4.0, [3.0 * exp(1.0), 1.0, 2.0, 0.001]],
-        "Конечно-разностный метод": [finite_difference_method, "green", 1.0, [lambda x: -(2 * x + 1) / x, lambda x: (x + 1) / x]],
+        "Конечно-разностный метод": [finite_difference_method, "green", 2.0,
+                                     [lambda x: -(2 * x + 1) / x, lambda x: (x + 1) / x]],
     }
 
     for name, [method, color, p, start_cond] in all_methods.items():
