@@ -52,19 +52,6 @@ def print_polynomial(a_list):
 def main():
     x_list = [-5.0, -3.0, -1.0, 1.0, 3.0, 5.0]
     f_list = [-1.3734, -1.249, -0.7854, 0.7854, 1.249, 1.3734]
-    # x_list = [0.0, 1.7, 3.4, 5.1, 6.8, 8.5]
-    # f_list = [0.0, 1.3038, 1.8439, 2.2583, 2.6077, 2.9155]
-    # x_list = [0.0, 0.5, 1.0, 1.5, 2.0]
-    # f_list = [0.0, 0.97943, 1.8415, 2.4975, 2.9093]
-    f_list = [0.06334, 0.04433, 0.03719, 0.03377,
-           0.03217, 0.03172, 0.0326, 0.03501,
-           0.03885, 0.04417, 0.05112, 0.05993,
-           0.07087, 0.08428, 0.10056, 0.12013]
-
-    x_list = [0.19235, 0.22236, 0.23789, 0.25006,
-           0.26043, 0.2697, 0.27466, 0.28836,
-           0.31015, 0.34034, 0.37979, 0.42976,
-           0.49183, 0.56794, 0.66027, 0.77136]
     a_list1 = approximating_polynomial(x_list, f_list)
     print_polynomial(a_list1)
     s_e = sum_squares_errors(a_list1, x_list, f_list)
@@ -73,10 +60,7 @@ def main():
     print_polynomial(a_list2)
     s_e = sum_squares_errors(a_list2, x_list, f_list)
     print(s_e)
-    a_list3 = approximating_polynomial(x_list, f_list, degrees=5)
-    # print_polynomial(a_list3)
-    # s_e = sum_squares_errors(a_list3, x_list, f_list)
-    # print(s_e)
+    a_list3 = approximating_polynomial(x_list, f_list, degrees=4)
 
     x = np.linspace(x_list[0] - 0.01, x_list[-1] + 0.01, 500)
     y1 = polynomial(a_list1, x)
@@ -97,7 +81,7 @@ def main():
     ax1.axvline(x=0, color='k', linewidth=0.5)
 
     ax2.plot(x, y2, color='red', linewidth=2)
-    ax2.plot(x, y3, color='black', linewidth=2)
+    ax2.plot(x, y3, color='black', linewidth=2, label="Многочлен 4-ой степени")
     ax2.scatter(x_list, f_list, color='green', s=40, zorder=5, label='Узлы интерполяции')
     ax2.set_title('Многочлен 2 степени')
     ax2.set_xlabel('x')
